@@ -64,7 +64,7 @@ client = Client(options)
 client.download(remote_path=remote_file_path, local_path=geotiff_files_path)
 
 ## 3. Save the projection (ESPG) from the first file.
-## All files will be repojected using this projection (if varying).
+## All files will be rejected using this projection (if varying).
 def get_files_with_extensions(directory_path, extensions):
     files = []
     for file_name in os.listdir(directory_path):
