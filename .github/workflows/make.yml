@@ -33,7 +33,6 @@ jobs:
     - name: Build docker
       uses: docker/build-push-action@v5
       with:
-        context: docker/${{ inputs.docker_folder }}
         push: ${{ github.event_name == 'release' }}
         tags: qcdis/geotiff_viewer:${{ steps.get_version.outputs.version }},qcdis/geotiff_viewer:latest
         cache-from: type=gha
