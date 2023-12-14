@@ -1,0 +1,10 @@
+name: naavre_map_viz
+channels:
+  - conda-forge
+dependencies:
+  - nodejs=>18.13.0
+  - numpy
+  - Pillow
+  - python-dotenv
+  - tifffile
+  - webdavclient3

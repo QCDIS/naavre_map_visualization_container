@@ -1,0 +1,41 @@
+name: make
+on:
+  release:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
+  schedule:
+    - cron: '0 4 5,25 * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Login to github Registry
+      if : github.event_name == 'release'
+      uses: docker/login-action@v3
+      with:
+        registry: "https://index.docker.io/v1/"
+        username: ${{ secrets.docker_username }}
+        password: ${{ secrets.docker_password }}
+
+    - id: get_version
+      uses: battila7/get-version-action@v2
+    - run: echo ${{ steps.get_version.outputs.version }}
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build docker
+      uses: docker/build-push-action@v5
+      with:
+        context: docker/${{ inputs.docker_folder }}
+        push: ${{ github.event_name == 'release' }}
+        tags: qcdis/geotiff_viewer:${{ steps.get_version.outputs.version }},qcdis/geotiff_viewer:latest
+        cache-from: type=gha
+        cache-to: type=gha,mode=min
+
