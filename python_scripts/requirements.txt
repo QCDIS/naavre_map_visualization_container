@@ -2,4 +2,3 @@ numpy
 Pillow
 python-dotenv
 tifffile
-webdavclient3

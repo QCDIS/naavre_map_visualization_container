@@ -16,7 +16,7 @@ import {transformExtent} from 'ol/proj';
 import {ScaleLine, defaults as defaultControls} from 'ol/control.js';
 import {FullScreen, defaults as defaultControls2} from 'ol/control.js';
 
-import data from './data.json'
+import data from '/data.json'
 
 /*
 Sources used:

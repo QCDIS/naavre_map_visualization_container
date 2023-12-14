@@ -1,4 +1,3 @@
-from webdav3.client import Client
 from configparser import ConfigParser
 import glob
 import os
@@ -31,37 +30,15 @@ def create_if_not_exists(filename):
     else:
         print(f"File '{filename}' already exists.")
 
-geotiff_files_path = './geotiffs/'
-pngs_files_path = './pngs/'
-json_file_path = './data.json'
+geotiff_files_path = '/geotiffs/'
+pngs_files_path = '/pngs/'
+json_file_path = '/data.json'
 json_dict = {}
 extensions = (".tif", ".TIF", ".tiff", "TIFF") 
 
 create_directory_if_not_exists(geotiff_files_path)
 create_directory_if_not_exists(pngs_files_path)
 create_if_not_exists(json_file_path)
-
-## 2. Retrieve files using the input arguments (saved to config.ini)
-# Read the configuration file
-config = ConfigParser()
-config.read('configs/config.ini')
-
-# Retrieve credential options and remote file path from the configuration file
-webdav_hostname = config.get('WebDAV', 'webdav_hostname')
-webdav_login = config.get('WebDAV', 'webdav_login')
-webdav_password = config.get('WebDAV', 'webdav_password')
-remote_file_path = config.get('WebDAV', 'remote_file_path')
-
-# Create a client instance
-options = {
-    'webdav_hostname': webdav_hostname,
-    'webdav_login': webdav_login,
-    'webdav_password': webdav_password
-}
-client = Client(options)
-
-# Download the file from the remote server
-client.download(remote_path=remote_file_path, local_path=geotiff_files_path)
 
 ## 3. Save the projection (ESPG) from the first file.
 ## All files will be rejected using this projection (if varying).

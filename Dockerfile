@@ -20,7 +20,6 @@ COPY index.html /app
 COPY style.css /app
 
 COPY python_scripts /app/python_scripts
-COPY configs /app/configs
 
 # Install Python 3 and pip
 RUN apk add --no-cache python3 py3-pip
