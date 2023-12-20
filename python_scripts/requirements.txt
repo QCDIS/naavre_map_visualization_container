@@ -2,3 +2,5 @@ numpy
 Pillow
 python-dotenv
 tifffile
+webdavclient3
+rasterio
