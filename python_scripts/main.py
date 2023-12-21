@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 import download_files
 import prepare_input
 
+
 def main():
     # Define file paths and data types required
     geotiff_files_path = './geotiffs/'
@@ -46,20 +47,22 @@ def main():
     num_files_str = args.num_files
     mode = args.mode
 
-    #Time the execution of download_files function in milliseconds
+    # Time the execution of download_files function in milliseconds
     start_time_download = time.time()
-    download_files.download_using_credentials(hostname, username, password, remote_file_path, num_files_str, mode, extensions, geotiff_files_path)
+    download_files.download_using_credentials(hostname, username, password, remote_file_path, num_files_str, mode,
+                                              extensions, geotiff_files_path)
     end_time_download = time.time()
     elapsed_time_download = (end_time_download - start_time_download) * 1000  # Convert to milliseconds
     print("download_files execution time: {} milliseconds".format(elapsed_time_download))
 
     # Time the execution of prepare_input function in milliseconds
     start_time_prepare_input = time.time()
-    prepare_input.prepare_input_for_application(geotiff_files_path, pngs_files_path, json_file_path, json_dict, extensions)
+    prepare_input.prepare_input_for_application(geotiff_files_path, pngs_files_path, json_file_path, json_dict,
+                                                extensions)
     end_time_prepare_input = time.time()
     elapsed_time_prepare_input = (end_time_prepare_input - start_time_prepare_input) * 1000  # Convert to milliseconds
     print("prepare_input execution time: {} milliseconds".format(elapsed_time_prepare_input))
 
+
 if __name__ == "__main__":
     main()
-

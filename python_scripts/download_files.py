@@ -12,6 +12,7 @@ from webdav3.client import Client
 from configparser import ConfigParser
 from dotenv import load_dotenv
 
+
 ## Create necessary directories and file if not existing yet.
 def create_directory_if_not_exists(directory):
     if not os.path.exists(directory):
@@ -19,6 +20,7 @@ def create_directory_if_not_exists(directory):
         print(f"Directory '{directory}' created.")
     else:
         print(f"Directory '{directory}' already exists.")
+
 
 def create_file_if_not_exists(filename):
     directory = os.path.dirname(filename)
@@ -34,7 +36,8 @@ def create_file_if_not_exists(filename):
         print(f"File '{filename}' already exists.")
 
 
-def download_using_credentials(hostname,username, password, remote_file_path, num_files_str, mode, extensions, geotiff_files_path):
+def download_using_credentials(hostname, username, password, remote_file_path, num_files_str, mode, extensions,
+                               geotiff_files_path):
     try:
         if mode == "webdav":
             # For now only support webdav
@@ -65,7 +68,8 @@ def download_using_credentials(hostname,username, password, remote_file_path, nu
 
             # Download only the filtered files
             for file in filtered_files[:num_files]:
-                client.download(remote_path=os.path.join(remote_file_path, file), local_path=os.path.join(geotiff_files_path, file))
+                client.download(remote_path=os.path.join(remote_file_path, file),
+                                local_path=os.path.join(geotiff_files_path, file))
         elif mode == "macaroon":
             # Macaroon = password, remote_file_path = full file path (including hostname) to a single file
             # Multiple files in one directory is not supported for macaroons
