@@ -33,6 +33,10 @@ def main():
     json_dict = {}
     extensions = (".tif", ".TIF", ".tiff", "TIFF")
 
+    print('Arguments:' + '\n' + 'hostname: ' + hostname + '\n' + 'username: ' + username + '\n' + 'password: ' +
+          password + '\n' + 'remote_file_path: ' + remote_file_path + '\n' + 'num_files: ' + num_files_str + '\n' +
+          'mode: ' + mode + '\n' + 'output_dir: ' + output_dir + '\n')
+
     # Create required directories and files if they do not exist
     download_files.create_directory_if_not_exists(geotiff_files_path)
     download_files.create_directory_if_not_exists(pngs_files_path)
