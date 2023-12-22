@@ -13,29 +13,29 @@ def main():
     arg_parser.add_argument('--hostname', action='store', type=str, required=True, dest='hostname')
     arg_parser.add_argument('--username', action='store', type=str, required=True, dest='username')
     arg_parser.add_argument('--password', action='store', type=str, required=True, dest='password')
-    arg_parser.add_argument('--remote_file_path', action='store', type=str, required=True, dest='remote_file_path')
-    arg_parser.add_argument('--num_files', action='store', type=str, required=True, dest='num_files')
+    arg_parser.add_argument('--remote', action='store', type=str, required=True, dest='remote')
+    arg_parser.add_argument('--num', action='store', type=str, required=True, dest='num')
     arg_parser.add_argument('--mode', action='store', type=str, required=True, dest='mode')
-    arg_parser.add_argument('--output_dir', action='store', type=str, required=True, dest='output_dir')
+    arg_parser.add_argument('--output', action='store', type=str, required=True, dest='output')
     args = arg_parser.parse_args()
 
     hostname = args.hostname
     username = args.username
     password = args.password
-    remote_file_path = args.remote_file_path
-    num_files_str = args.num_files
+    remote = args.remote
+    num_str = args.num
     mode = args.mode
-    output_dir = args.output_dir
+    output = args.output
     # Define file paths and data types required
-    geotiff_files_path = os.path.join(output_dir, 'geotiff_files')
+    geotiff_files_path = os.path.join(output, 'geotiff_files')
     pngs_files_path = './pngs_files'
     json_file_path = './data.json'
     json_dict = {}
     extensions = (".tif", ".TIF", ".tiff", "TIFF")
 
     print('Arguments:' + '\n' + 'hostname: ' + hostname + '\n' + 'username: ' + username + '\n' + 'password: ' +
-          password + '\n' + 'remote_file_path: ' + remote_file_path + '\n' + 'num_files: ' + num_files_str + '\n' +
-          'mode: ' + mode + '\n' + 'output_dir: ' + output_dir + '\n')
+          password + '\n' + 'remote: ' + remote + '\n' + 'num: ' + num_str + '\n' +
+          'mode: ' + mode + '\n' + 'output: ' + output + '\n')
 
     # Create required directories and files if they do not exist
     download_files.create_directory_if_not_exists(geotiff_files_path)
@@ -44,7 +44,7 @@ def main():
 
     # Time the execution of download_files function in milliseconds
     start_time_download = time.time()
-    download_files.download_using_credentials(hostname, username, password, remote_file_path, num_files_str, mode,
+    download_files.download_using_credentials(hostname, username, password, remote, num_str, mode,
                                               extensions, geotiff_files_path)
     end_time_download = time.time()
     elapsed_time_download = (end_time_download - start_time_download) * 1000  # Convert to milliseconds
