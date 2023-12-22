@@ -1,16 +1,7 @@
-import argparse
-import glob
-import json
-import numpy as np
 import os
-import rasterio
-from rasterio import warp
+
 import requests
-from PIL import Image
-import tifffile as tiff
 from webdav3.client import Client
-from configparser import ConfigParser
-from dotenv import load_dotenv
 
 
 ## Create necessary directories and file if not existing yet.

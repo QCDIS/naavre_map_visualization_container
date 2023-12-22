@@ -18,6 +18,7 @@ COPY favicon.ico /app
 COPY main.js /app
 COPY index.html /app
 COPY style.css /app
+COPY .env /app
 
 COPY python_scripts /app/python_scripts
 #COPY configs /app/configs
@@ -40,13 +41,13 @@ RUN apk add --no-cache \
 RUN pip3 install --no-cache-dir -r python_scripts/requirements.txt
 
 # Copy the entrypoint script into the container
-COPY entrypoint_time.sh /app/entrypoint_time.sh
+#COPY entrypoint_time.sh /app/entrypoint_time.sh
 
 # Make the entrypoint script executable
-RUN chmod +x /app/entrypoint_time.sh
+#RUN chmod +x /app/entrypoint_time.sh
 
 # Expose the port your application will run on (if needed)
 EXPOSE 5173
 
 # Set the entrypoint script as the entrypoint for the container
-ENTRYPOINT ["/app/entrypoint_time.sh"]
+#ENTRYPOINT ["/app/entrypoint_time.sh"]

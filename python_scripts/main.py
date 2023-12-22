@@ -1,35 +1,13 @@
 import argparse
-import time
-import glob
 import json
-import numpy as np
 import os
-import rasterio
-from rasterio import warp
-import requests
-from PIL import Image
-import tifffile as tiff
-from webdav3.client import Client
-from configparser import ConfigParser
-from dotenv import load_dotenv
+import time
 
 import download_files
 import prepare_input
 
 
 def main():
-    # Define file paths and data types required
-    geotiff_files_path = './geotiffs/'
-    pngs_files_path = './pngs/'
-    json_file_path = './data.json'
-    json_dict = {}
-    extensions = (".tif", ".TIF", ".tiff", "TIFF")
-
-    # Create required directories and files if they do not exist
-    download_files.create_directory_if_not_exists(geotiff_files_path)
-    download_files.create_directory_if_not_exists(pngs_files_path)
-    download_files.create_file_if_not_exists(json_file_path)
-
     # Fetch necessary credentials
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument('--hostname', action='store', type=str, required=True, dest='hostname')
@@ -38,6 +16,7 @@ def main():
     arg_parser.add_argument('--remote_file_path', action='store', type=str, required=True, dest='remote_file_path')
     arg_parser.add_argument('--num_files', action='store', type=str, required=True, dest='num_files')
     arg_parser.add_argument('--mode', action='store', type=str, required=True, dest='mode')
+    arg_parser.add_argument('--output_dir', action='store', type=str, required=True, dest='output_dir')
     args = arg_parser.parse_args()
 
     hostname = args.hostname
@@ -46,6 +25,18 @@ def main():
     remote_file_path = args.remote_file_path
     num_files_str = args.num_files
     mode = args.mode
+    output_dir = args.output_dir
+    # Define file paths and data types required
+    geotiff_files_path = os.path.join(output_dir, 'geotiff_files')
+    pngs_files_path = './pngs_files'
+    json_file_path = './data.json'
+    json_dict = {}
+    extensions = (".tif", ".TIF", ".tiff", "TIFF")
+
+    # Create required directories and files if they do not exist
+    download_files.create_directory_if_not_exists(geotiff_files_path)
+    download_files.create_directory_if_not_exists(pngs_files_path)
+    download_files.create_file_if_not_exists(json_file_path)
 
     # Time the execution of download_files function in milliseconds
     start_time_download = time.time()
@@ -62,6 +53,10 @@ def main():
     end_time_prepare_input = time.time()
     elapsed_time_prepare_input = (end_time_prepare_input - start_time_prepare_input) * 1000  # Convert to milliseconds
     print("prepare_input execution time: {} milliseconds".format(elapsed_time_prepare_input))
+    # print json_file_path content to stdout with indentation
+    with open(json_file_path) as json_file:
+        contents = json.load(json_file)
+    print(json.dumps(contents, indent=4))
 
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 // vite.config.js
 export default {
+  base: '/naavre-visualiser/',
   build: {
     sourcemap: true,
   },

@@ -16,7 +16,10 @@ import {transformExtent} from 'ol/proj';
 import {ScaleLine, defaults as defaultControls} from 'ol/control.js';
 import {FullScreen, defaults as defaultControls2} from 'ol/control.js';
 
-import data from './data.json'
+
+let data_file = import.meta.env.VITE_DATA_DIR;
+console.log(data_file);
+import data from './data.json';
 
 /*
 Sources used:
@@ -28,6 +31,7 @@ https://github.com/geops/openlayers-editor
 */
 
 const fpsCounter = document.getElementById('fpsCounter');
+
 
 // Variables for FPS calculation
 let frames = 0;
