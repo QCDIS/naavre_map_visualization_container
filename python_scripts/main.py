@@ -19,13 +19,13 @@ def main():
     arg_parser.add_argument('--output', action='store', type=str, required=True, dest='output')
     args = arg_parser.parse_args()
 
-    hostname = args.hostname
-    username = args.username
-    password = args.password
-    remote = args.remote
-    num_str = args.num
-    mode = args.mode
-    output = args.output
+    hostname = args.hostname.replace('"', '').strip()
+    username = args.username.replace('"', '').strip()
+    password = args.password.replace('"', '').strip()
+    remote = args.remote.replace('"', '').strip()
+    num_str = args.num.replace('"', '').strip()
+    mode = args.mode.replace('"', '').strip()
+    output = args.output.replace('"', '').strip()
     # Define file paths and data types required
     geotiff_files_path = os.path.join(output, 'geotiff_files')
     pngs_files_path = './pngs_files'
