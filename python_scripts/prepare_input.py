@@ -79,7 +79,7 @@ def prepare_input_for_application(geotiff_files_path, pngs_files_path, json_file
     # Open the TIFF file using rasterio
     with rasterio.open(geotiff_files_list[0]) as src:
         target_crs = src.crs
-        print('target_crs: ' + target_crs)
+        print('target_crs: ' + str(target_crs))
         json_dict["projection"] = int(target_crs.to_epsg())
 
     png_files_dict = {}

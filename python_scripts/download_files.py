@@ -50,8 +50,12 @@ def download_using_credentials(hostname, username, password, remote_file_path, n
                 exit(1)
 
             # Retrieve a list of remote files first
-            remote_files = client.list(remote_path=remote_file_path)
-            print('remote_files: ' + str(remote_files))
+            try:
+                remote_files = client.list(remote_path=remote_file_path)
+                print('remote_files: ' + str(remote_files))
+            except Exception as e:
+                print(f"Error occurred while retrieving remote files: {e}")
+                exit(1)
 
             # Filter the files in the list based on the specified extensions
             filtered_files = [file for file in remote_files if file.endswith(extensions)]
