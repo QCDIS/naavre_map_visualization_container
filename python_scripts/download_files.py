@@ -34,6 +34,7 @@ def download_using_credentials(hostname, username, password, remote_file_path, n
 
     try:
         if mode == "webdav":
+            print('mode: webdav')
             # For now only support webdav
             options = {
                 'webdav_hostname': hostname,
@@ -44,21 +45,14 @@ def download_using_credentials(hostname, username, password, remote_file_path, n
             check = client.check(remote_path=remote_file_path)
             print('check: ' + str(check))
             # Check if NUM_FILES is an integer
-            try:
-                num_files = int(num_files_str)
-                print('num_files: ' + str(num_files))
-            except ValueError:
-                print("Error: NUM_FILES must be an integer.")
-                exit(1)
+
+            num_files = int(num_files_str)
+            print('num_files: ' + str(num_files))
 
             # Retrieve a list of remote files first
             print('client.list(remote_path=remote_file_path')
-            try:
-                remote_files = client.list(remote_path=remote_file_path)
-                print('remote_files: ' + str(remote_files))
-            except Exception as e:
-                print(f"Error occurred while retrieving remote files: {e}")
-                exit(1)
+            remote_files = client.list(remote_path=remote_file_path)
+            print('remote_files: ' + str(remote_files))
 
             # Filter the files in the list based on the specified extensions
             filtered_files = [file for file in remote_files if file.endswith(extensions)]
@@ -94,6 +88,6 @@ def download_using_credentials(hostname, username, password, remote_file_path, n
 
             except requests.exceptions.RequestException as e:
                 print(f"Error occurred during the request: {e}")
-    except TypeError:
-        print("Mode {mode} is not recognized. Available modes: webdav, macaroon")
-        exit(1)
+    except Exception as e:
+        print('download_using_credentials failed: ' + str(e))
+        raise e
