@@ -83,7 +83,7 @@ def prepare_input_for_application(geotiff_files_path, pngs_files_path, json_file
         json_dict["projection"] = int(target_crs.to_epsg())
 
     png_files_dict = {}
-
+    png_file = ""
     for tif_file in geotiff_files_list:
         for extension in extensions:
             if tif_file.lower().endswith(extension.lower()):
@@ -105,7 +105,7 @@ def prepare_input_for_application(geotiff_files_path, pngs_files_path, json_file
 
     json_dict["png_files"] = png_files_dict
 
-    ## Add the version of the OpenLayers application.
+    # Add the version of the OpenLayers application.
     # This is done using this script as accessing .env from the browser is not possible.
 
     # Load environment variables from .env file

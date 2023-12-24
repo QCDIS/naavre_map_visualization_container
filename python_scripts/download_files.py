@@ -41,15 +41,18 @@ def download_using_credentials(hostname, username, password, remote_file_path, n
                 'webdav_password': password
             }
             client = Client(options)
-
+            check = client.check(remote_path=remote_file_path)
+            print('check: ' + str(check))
             # Check if NUM_FILES is an integer
             try:
                 num_files = int(num_files_str)
+                print('num_files: ' + str(num_files))
             except ValueError:
                 print("Error: NUM_FILES must be an integer.")
                 exit(1)
 
             # Retrieve a list of remote files first
+            print('client.list(remote_path=remote_file_path')
             try:
                 remote_files = client.list(remote_path=remote_file_path)
                 print('remote_files: ' + str(remote_files))
