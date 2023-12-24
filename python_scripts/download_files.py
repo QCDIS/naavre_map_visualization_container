@@ -29,6 +29,9 @@ def create_file_if_not_exists(filename):
 
 def download_using_credentials(hostname, username, password, remote_file_path, num_files_str, mode, extensions,
                                geotiff_files_path):
+    print('download_using_credentials: ' + hostname + ' ' + username + ' ' + password + ' ' + remote_file_path + ' ' +
+          num_files_str + ' ' + mode + ' ' + str(extensions) + ' ' + geotiff_files_path)
+
     try:
         if mode == "webdav":
             # For now only support webdav
@@ -48,10 +51,11 @@ def download_using_credentials(hostname, username, password, remote_file_path, n
 
             # Retrieve a list of remote files first
             remote_files = client.list(remote_path=remote_file_path)
-            print(remote_files)
+            print('remote_files: ' + str(remote_files))
 
             # Filter the files in the list based on the specified extensions
             filtered_files = [file for file in remote_files if file.endswith(extensions)]
+            print('filtered_files: ' + str(filtered_files))
 
             # If NUM_FILES is not positive or larger than the list of filtered files, download all filtered files
             if num_files <= 0 or num_files > len(filtered_files):

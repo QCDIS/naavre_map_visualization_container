@@ -12,6 +12,7 @@ from webdav3.client import Client
 from configparser import ConfigParser
 from dotenv import load_dotenv
 
+
 ## Save the projection (ESPG) from the first file.
 ## All files will be repojected using this projection (if varying).
 def get_files_with_extensions(directory_path, extensions):
@@ -20,6 +21,7 @@ def get_files_with_extensions(directory_path, extensions):
         if any(file_name.endswith(extension) for extension in extensions):
             files.append(os.path.join(directory_path, file_name))
     return files
+
 
 ## Convert each .tif to .png + calculate extents
 
@@ -36,7 +38,6 @@ def tif_to_png(tif_file, png_file, target_crs):
 
         # Convert data type to UInt16
         src_data = (src_data * 65535).astype(np.uint16)
-
 
         # Get the extent of the source dataset
         src_extent = src.bounds
@@ -55,30 +56,30 @@ def tif_to_png(tif_file, png_file, target_crs):
 
         # Create a new dataset in the target projection and save as PNG
         with rasterio.open(
-            png_file,
-            "w",
-            driver="PNG",
-            height=src_data.shape[0],
-            width=src_data.shape[1],
-            count=1,
-            dtype=src_data.dtype,
-            crs=target_crs,
-            transform=src_transform,
+                png_file,
+                "w",
+                driver="PNG",
+                height=src_data.shape[0],
+                width=src_data.shape[1],
+                count=1,
+                dtype=src_data.dtype,
+                crs=target_crs,
+                transform=src_transform,
         ) as dst:
             # Write the reprojected data to the output PNG file
             dst.write(src_data, 1)
 
-    return(min_x, min_y, max_x, max_y)
+    return (min_x, min_y, max_x, max_y)
 
 
 def prepare_input_for_application(geotiff_files_path, pngs_files_path, json_file_path, json_dict, extensions):
     geotiff_files_list = get_files_with_extensions(geotiff_files_path, extensions)
 
-    print(geotiff_files_list)
+    print('geotiff_files_list:' + str(geotiff_files_list))
     # Open the TIFF file using rasterio
     with rasterio.open(geotiff_files_list[0]) as src:
         target_crs = src.crs
-        print(target_crs)
+        print('target_crs: ' + target_crs)
         json_dict["projection"] = int(target_crs.to_epsg())
 
     png_files_dict = {}
@@ -92,7 +93,7 @@ def prepare_input_for_application(geotiff_files_path, pngs_files_path, json_file
         png_file = png_file.replace(geotiff_files_path, pngs_files_path)
 
         [min_x, min_y, max_x, max_y] = tif_to_png(tif_file, png_file, target_crs)
-     
+
         nested_dict = {
             "file_name": png_file,
             "min_x": min_x,
