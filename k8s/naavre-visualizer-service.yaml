@@ -5,33 +5,60 @@ metadata:
   namespace: argo
 spec:
   selector:
-    app.kubernetes.io/name: naavre-visualizer
+    app: naavre-visualizer
   ports:
     - protocol: TCP
       port: 5173
       targetPort: 5173
+  type: ClusterIP
+
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: naavre-visualizer-deployment
+#   namespace: argo
+#   labels:
+#     app.kubernetes.io/name: naavre-visualizer
+# spec:
+#   replicas: 1  # Set the number of desired replicas
+#   selector:
+#     matchLabels:
+#       app: naavre-visualizer
+#   template:
+#     metadata:
+#       labels:
+#         app: naavre-visualizer
+#     spec:
+#       containers:
+#       - name: naavre-visualizer
+#         image: qcdis/geotiff_viewer:v0.2.6
+#         command: ["/bin/sh", "-c"]
+#         args:
+#             - python /app/python_scripts/main.py
+#                 --hostname WEBDAV_HOSTNAME
+#                 --mode webdav
+#                 --password WEBDAV_PASSWORD
+#                 --remote /webdav/vl-laserfarm/geotiffs/
+#                 --output /tmp/data
+#                 --num 1
+#                 --username WEBDAV_USERNAME
+#                 && npm start
+#         ports:
+#         - containerPort: 5173
+#           protocol: TCP
 ---
 kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
   name: naavre-visualizer-ingress
   namespace: argo
-  labels:
-    app.kubernetes.io/name: naavre-visualizer
   annotations:
     nginx.ingress.kubernetes.io/add-base-url: 'true'
-    nginx.ingress.kubernetes.io/backend-protocol: HTTP
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header Accept-Encoding "";
-      sub_filter '<base href="/">' '<base href="/naavre-visualizer/">';
-      sub_filter_once on;
-      more_set_headers "X-Accel-Buffering: no";
-    nginx.ingress.kubernetes.io/force-ssl-redirect: 'false'
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
   rules:
-    - host: HOST
+    - host: HOSTNAME
       http:
         paths:
           - path: /naavre-visualizer(/|$)(.*)
@@ -41,3 +68,4 @@ spec:
                 name: naavre-visualizer-service
                 port:
                   number: 5173
+
